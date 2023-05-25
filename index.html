@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Flippable Cards</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Card container */
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Individual card */
+        .card {
+            width: calc(33.33% - 20px);
+            height: 100px;
+            perspective: 1000px;
+            margin: 10px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        /* Card front and back face */
+        .card .card-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            transition: transform 0.6s;
+        }
+
+        /* Card front face */
+        .card .card-front {
+            background-color: #e6e6e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Card back face */
+        .card .card-back {
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #fff;
+            transform: rotateY(180deg);
+            text-align: center;
+        }
+
+        /* Flipped card */
+        .card.flipped .card-front {
+            transform: rotateY(180deg);
+        }
+
+        .card.flipped .card-back {
+            transform: rotateY(0deg);
+        }
+
+        .show-all-button {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+
+            /* Adjustments for mobile screens */
+            .card {
+                width: calc(30% - 20px);
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 400px) {
+
+            /* Further adjustments for smaller screens */
+            .card {
+                width: calc(30% - 20px);
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card-container">
+        <div class="card">
+            <div class="card-face card-front">1</div>
+            <div class="card-face card-back">one secret</div>
+        </div>
+        <div class="card">
+            <div class="card-face card-front">2</div>
+            <div class="card-face card-back">chocolate(kit-kat)</div>
+        </div>
+        <div class="card">
+            <div class="card-face card-front">3</div>
+            <div class="card-face card-back">empty</div>
+        </div>
+        <div class="card">
+            <div class="card-face card-front">4</div>
+            <div class="card-face card-back">thank you!</div>
+        </div>
+        <div class="card">
+            <div class="card-face card-front">5</div>
+            <div class="card-face card-back">no instagram for 4 hours</div>
+        </div>
+        <div class="card">
+            <div class="card-face card-front">6</div>
+            <div class="card-face card-back">rs-1/- pulse</div>
+        </div>
+        <div class="card">
+            <div class="card-face card-front">7</div>
+            <div class="card-face card-back">empty</div>
+        </div>
+        <div class="card">
+            <div class="card-face card-front">8</div>
+            <div class="card-face card-back">chocolate(dairymilk)</div>
+        </div>
+        <div class="card">
+            <div class="card-face card-front">9</div>
+            <div class="card-face card-back">no whatsapp for 2 hour</div>
+        </div>
+    </div>
+
+    <div class="show-all-button" id="show-button">
+        <button onclick="showAll()" >Show All</button>
+    </div>
+    <div id="new" style="font-family: 'Courier New', Courier, monospace; display:none;">
+        <p>take screenshot and share!</p>
+    </div>
+
+    <script>
+        // Add click event listener to each card
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => card.addEventListener('click', flipCard));
+
+        // Variable to store the currently open card
+        let openCard = null;
+
+        // Flag to check if "Show All" button has been pressed
+        let showAllPressed = false;
+
+        // Function to flip the clicked card
+        function flipCard() {
+            if (showAllPressed || openCard) return; // If "Show All" button has been pressed or a card is already flipped, don't flip individual cards
+
+            this.classList.add('flipped');
+            openCard = this;
+            openCard.style.border = '2px solid #ff0000';
+            document.getElementById("show-button").style.display = "block";
+
+            // Disable click event listener on other cards
+            cards.forEach(card => {
+                if (card !== this) {
+                    card.style.pointerEvents = 'none';
+                }
+            });
+        }
+
+
+        //hide text
+        function unhide() {
+            document.getElementById("new").style.display = "block";
+        }
+        // Function to show all cards flipped
+        function showAll() {
+            cards.forEach(card => {
+                card.classList.add('flipped');
+                card.style.pointerEvents = 'none';
+            });
+            document.getElementById("new").style.display = "block";
+            showAllPressed = true;
+        }
+    </script>
+</body>
+
+</html>
